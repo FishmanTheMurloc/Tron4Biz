@@ -1,4 +1,4 @@
-# Tron4Biz
+# Tron4Biz [![NuGet Version](https://img.shields.io/nuget/v/Tron4Biz.svg?style=flat-square)](https://www.nuget.org/packages/Tron4Biz)
 
 Tron4Biz 是一个更偏向商业逻辑的 .NET TRON 区块链 SDK，适合需要精细控制交易流程的商业应用。
 
