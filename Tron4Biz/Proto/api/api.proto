@@ -1,0 +1,79 @@
+syntax = "proto3";
+package protocol;
+
+import "core/Tron.proto";
+import "core/contract/balance_contract.proto";
+import "core/contract/smart_contract.proto";
+
+service Wallet {
+  rpc GetAccount (Account) returns (Account);
+
+  rpc CreateTransaction2 (TransferContract) returns (TransactionExtention);
+
+  rpc BroadcastTransaction (Transaction) returns (Return);
+
+  rpc GetTransactionById (BytesMessage) returns (Transaction);
+
+  rpc GetTransactionInfoById (BytesMessage) returns (TransactionInfo);
+
+  rpc GetNowBlock2 (EmptyMessage) returns (BlockExtention);
+
+  rpc TriggerContract (TriggerSmartContract) returns (TransactionExtention);
+
+  rpc TriggerConstantContract (TriggerSmartContract) returns (TransactionExtention);
+}
+
+service WalletSolidity {
+  rpc GetAccount (Account) returns (Account);
+
+  rpc GetNowBlock2 (EmptyMessage) returns (BlockExtention);
+
+  rpc GetTransactionById (BytesMessage) returns (Transaction);
+
+  rpc GetTransactionInfoById (BytesMessage) returns (TransactionInfo);
+
+  rpc TriggerConstantContract (TriggerSmartContract) returns (TransactionExtention);
+}
+
+message BytesMessage {
+  bytes value = 1;
+}
+
+message EmptyMessage {
+}
+
+message BlockExtention {
+  repeated TransactionExtention transactions = 1;
+  BlockHeader block_header = 2;
+  bytes blockid = 3;
+}
+
+message TransactionExtention {
+  Transaction transaction = 1;
+  bytes txid = 2;
+  repeated bytes constant_result = 3;
+  Return result = 4;
+}
+
+message Return {
+  enum response_code {
+    SUCCESS = 0;
+    SIGERROR = 1;
+    CONTRACT_VALIDATE_ERROR = 2;
+    CONTRACT_EXE_ERROR = 3;
+    BANDWITH_ERROR = 4;
+    DUP_TRANSACTION_ERROR = 5;
+    TAPOS_ERROR = 6;
+    TOO_BIG_TRANSACTION_ERROR = 7;
+    TRANSACTION_EXPIRATION_ERROR = 8;
+    SERVER_BUSY = 9;
+    NO_CONNECTION = 10;
+    NOT_ENOUGH_EFFECTIVE_CONNECTION = 11;
+    BLOCK_UNSOLIDIFIED = 12;
+    OTHER_ERROR = 20;
+  }
+
+  bool result = 1;
+  response_code code = 2;
+  bytes message = 3;
+}
